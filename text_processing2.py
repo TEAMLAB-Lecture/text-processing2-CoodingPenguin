@@ -28,7 +28,18 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    import string
+    words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    num_to_word = dict(zip(string.digits, words))   # 숫자-영단어 대응 딕셔너리
+
+    digit_string = ""
+    only_num = []   # 숫자만 담는 리스트
+    for letter in input_string:
+        # 문자가 숫자라면 only_num에 추가
+        if letter.isdigit():
+            only_num.append(num_to_word[letter])
+    if only_num:
+        digit_string = " ".join(only_num)
     return digit_string
 
 
@@ -64,5 +75,16 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    # _가 없는 입력은 처리할 필요가 없으므로 원래 입력값 반환
+    if "_" not in underscore_str:
+        return underscore_str
+    temp_underscore = underscore_str.strip('_').lower() # 입력값을 trim하고 소문자화
+    camelcase_str = ""  # camelCase 결과
+    for idx, letter in enumerate(temp_underscore):
+        # _가 아닌 문자만
+        if letter != "_":
+            # 바로 앞의 문자가 _인 경우 대문자화
+            if temp_underscore[idx-1] == "_":
+                letter = letter.upper()
+            camelcase_str += letter
     return camelcase_str
